@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ArticleBox() {
+export default function ArticleBox({article}) {
   return (
     <div className="articles__item">
       <img
@@ -10,10 +10,9 @@ export default function ArticleBox() {
       />
       <div className="articles__details w-100">
         <div className="articles__info">
-          <h3 className="articles__name">دوره متخصص ریداکس</h3>
+          <h3 className="articles__name">{article?.title}</h3>
           <p className="articles__short-desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-            ullam voluptates impedit incidunt
+            {article?.desc}
           </p>
         </div>
         <div className="articles__tags">
@@ -22,14 +21,14 @@ export default function ArticleBox() {
               <span className="fa fa-tags"></span>
               <p className="articles__tag-text articles__category my-0">
                 <span>دسته بندی :</span>
-                <span className="articles__category-value">فرانت‌اند</span>
+                <span className="articles__category-value">{article?.category}</span>
               </p>
             </div>
             <div className="articles__visited-box d-flex gap-2 align-items-center">
               <span className="fa fa-users"></span>
               <p className="articles__tag-text articles__visited my-0">
                 <span>تعداد بازدید :</span>
-                <span className="articles__visited-count">23</span>
+                <span className="articles__visited-count">{article?.views}</span>
               </p>
             </div>
           </div>

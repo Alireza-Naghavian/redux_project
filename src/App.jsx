@@ -9,9 +9,9 @@ export default function App() {
   return (
     <>
       <Header />
-      <div class="container px-0">
-        <main class="main">
-          <div class="row justify-content-between ">
+      <div className="container px-0">
+        <main className="main">
+          <div className="row justify-content-between ">
             <Sidebar />
             {router}
           </div>

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserItem from "../../components/UserItem/UserItem";
 import { Link } from "react-router-dom";
 import "./Users.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "../../Redux/Store/Users";
 export default function Users() {
+  const dispatch = useDispatch();
+  const Users = useSelector((state) => state.Users);
+  useEffect(() => {
+    dispatch(getUserData("https://redux-cms.iran.liara.run/api/users"));
+  }, []);
   return (
     <div className="col-8 content px-0">
       <div className="content__wrapper">
@@ -35,7 +42,10 @@ export default function Users() {
         </ul>
 
         <div className="users">
-          <form action="#" className="form row justify-content-between gap-3 mx-0">
+          <form
+            action="#"
+            className="form row justify-content-between gap-3 mx-0"
+          >
             <div className="form__box-input col-8 px-0">
               <span className="fa fa-search form__icon form__icon-search"></span>
 
@@ -48,16 +58,20 @@ export default function Users() {
                 required
               />
             </div>
-            <button type="reset" className="btn-custome btn-custome--gray col-3">
+            <button
+              type="reset"
+              className="btn-custome btn-custome--gray col-3"
+            >
               حذف کاربر
             </button>
           </form>
 
           <div className="users__list-container">
             <div className="users__list users__list-wrapper">
-              <UserItem />
-              <UserItem />
-              <UserItem />
+              {Users &&
+                Users.map((item) => {
+                  return <UserItem  key={item._id} item={item}/>;
+                })}
             </div>
           </div>
         </div>
