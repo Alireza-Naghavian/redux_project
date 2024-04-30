@@ -1,6 +1,31 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { removeCourse } from "../../Redux/Store/courses";
+import Swal from "sweetalert2";
 
 export default function CourseBox({ course }) {
+  const courseId = course._id
+  const dispatch = useDispatch();
+  const deleteHandler = async () => {
+    Swal.fire({
+      title: "آیا از حذف مطمئن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: " #d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "حذف",
+      cancelButtonText: "لفو",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(removeCourse(course._id));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
   return (
     <div className="products__item">
       <img
@@ -11,9 +36,7 @@ export default function CourseBox({ course }) {
       <div className="products__details w-100">
         <div className="products__info">
           <h3 className="products__name ">{course?.title}</h3>
-          <p className="products__short-desc">
-         {course?.desc}
-          </p>
+          <p className="products__short-desc">{course?.desc}</p>
         </div>
         <div className="products__tags">
           <div className="products__boxes">
@@ -22,7 +45,7 @@ export default function CourseBox({ course }) {
 
               <span className="product__teg-text">قیمت :</span>
               <span className="product__teg-text products__price-value">
-            {course?.price}
+                {course?.price}
               </span>
             </div>
             <div className="products__category-box">
@@ -30,18 +53,22 @@ export default function CourseBox({ course }) {
 
               <span className="product__teg-text">دسته بندی:</span>
               <span className="product__teg-text products__category">
-              {course?.category}
+                {course?.category}
               </span>
             </div>
             <div className="products__shop-box">
               <span className="fa fa-users"></span>
 
               <span className="product__teg-text">تعداد فروش :</span>
-              <span className="product__teg-text products__sell">{course?.registersCount}</span>
+              <span className="product__teg-text products__sell">
+                {course?.registersCount}
+              </span>
             </div>
           </div>
           <div className="products__btns">
-            <button className="btn btn-danger btn-lg">حذف</button>
+            <button className="btn btn-danger btn-lg" onClick={deleteHandler}>
+              حذف
+            </button>
             <button className="btn btn-info btn-lg">ویرایش</button>
           </div>
         </div>

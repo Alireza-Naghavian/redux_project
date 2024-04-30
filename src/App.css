@@ -8027,3 +8027,42 @@ h6,
     background: #33211d;
   }
 }
+
+.show-modal {
+  display: block;
+}
+
+.modal .form-modal__icon-6 {
+  right: 5%;
+}
+
+@keyframes moveToDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* MODAL  */
+.modal {
+  -webkit-backdrop-filter: blur(5px) brightness(50%);
+  backdrop-filter: blur(5px) brightness(30%);
+
+}
+.hidden-modal{
+  display: none;
+  visibility: hidden;
+}
+
+.modal-content {
+  animation: moveToDown 0.4s ease-in-out;
+}
+
+.dark .modal-content {
+  background-color: var(--secondry);
+  color: var(--light);
+}
