@@ -2822,7 +2822,7 @@ pre code {
 }
 
 .form-control:disabled,
-.form-control[readonly] {
+.form-control[readOnly] {
   background-color: #e9ecef;
   opacity: 1;
 }

@@ -1,15 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UserItem from "../../components/UserItem/UserItem";
 import { Link } from "react-router-dom";
 import "./Users.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../../Redux/Store/Users";
+import { getUserData, removeUser } from "../../Redux/Store/Users";
+import Swal from "sweetalert2";
 export default function Users() {
   const dispatch = useDispatch();
   const Users = useSelector((state) => state.Users);
+  const [search, setSearch] = useState("");
+  const serachResult = [...Users].filter((item) => {
+    return (
+      search.toLowerCase().includes(item?.firstname.toLowerCase()) ||
+      search.toLowerCase().includes(item?.email.toLowerCase())
+    );
+  });
+  console.log(serachResult);
   useEffect(() => {
     dispatch(getUserData("https://redux-cms.iran.liara.run/api/users"));
   }, []);
+  const deleteUserHandler = () => {
+    if (serachResult.length) {
+      Swal.fire({
+        title: "آیا از حذف کاربر مطمئن هستید؟",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: " #d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "حذف",
+        cancelButtonText: "لفو",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(removeUser(serachResult[0]?._id));
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      });
+    }
+  };
   return (
     <div className="col-8 content px-0">
       <div className="content__wrapper">
@@ -52,6 +83,8 @@ export default function Users() {
               <input
                 type="search"
                 name=""
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 id="search"
                 placeholder="نام یا ایمیل کاربر را وارد کنید "
                 className="form-control form__input"
@@ -61,6 +94,7 @@ export default function Users() {
             <button
               type="reset"
               className="btn-custome btn-custome--gray col-3"
+              onClick={deleteUserHandler}
             >
               حذف کاربر
             </button>
@@ -68,10 +102,13 @@ export default function Users() {
 
           <div className="users__list-container">
             <div className="users__list users__list-wrapper">
-              {Users &&
-                Users.map((item) => {
-                  return <UserItem  key={item._id} item={item}/>;
-                })}
+              {search.trim()
+                ? serachResult.map((item) => {
+                    return <UserItem key={item._id} item={item} />;
+                  })
+                : Users.map((item) => {
+                    return <UserItem key={item._id} item={item} />;
+                  })}
             </div>
           </div>
         </div>
